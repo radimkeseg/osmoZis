@@ -70,23 +70,41 @@ const char * myWriteAPIKey = "CHF36K1C8B6YQUV4";
 
 #define LOGO16_GLCD_HEIGHT 16 
 #define LOGO16_GLCD_WIDTH  16 
-static const unsigned char PROGMEM logo16_glcd_bmp[] =
-{ B00000000, B11000000,
-  B00000001, B11000000,
-  B00000001, B11000000,
-  B00000011, B11100000,
-  B11110011, B11100000,
-  B11111110, B11111000,
-  B01111110, B11111111,
-  B00110011, B10011111,
-  B00011111, B11111100,
-  B00001101, B01110000,
-  B00011011, B10100000,
-  B00111111, B11100000,
-  B00111111, B11110000,
-  B01111100, B11110000,
-  B01110000, B01110000,
-  B00000000, B00110000 };
+static const unsigned char PROGMEM logo16_mois_bmp[] =
+{ B00000000, B00000000,
+  B00000001, B10000000,
+  B00000010, B01000000,
+  B00000010, B01000000,
+  B00000100, B00100000,
+  B00001000, B00010000,
+  B00010000, B00001000,
+  B00100100, B00000100,
+  B00101000, B00000100,
+  B00100000, B00000100,
+  B00100000, B00000100,
+  B00010000, B00001000,
+  B00001000, B00010000,
+  B00000100, B00100000,
+  B00000011, B11000000,
+  B00000000, B00000000 };
+
+static const unsigned char PROGMEM logo16_temp_bmp[] =
+{ B00000000, B00000000,
+  B00000001, B10000000,
+  B00000011, B11000000,
+  B00000010, B01000000,
+  B00000011, B01000000,
+  B00000010, B01000000,
+  B00000011, B01000000,
+  B00000010, B01000000,
+  B00000011, B01000000,
+  B00000010, B01000000,
+  B00000011, B01000000,
+  B00000100, B00100000,
+  B00001010, B00010000,
+  B00001000, B00010000,
+  B00000111, B11100000,
+  B00000000, B00000000 };
 
 #if (SSD1306_LCDHEIGHT != 64)
 #error("Height incorrect, please fix Adafruit_SSD1306.h!");
@@ -143,7 +161,7 @@ void write_intro(void) {
   display.setTextColor(WHITE);
   display.setCursor(0,10);
   display.setTextColor(BLACK, WHITE); // 'inverted' text
-  display.print("OSMOZA");
+  display.print("osmoZis");
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0,30);
@@ -246,11 +264,12 @@ double read_moisture(){
 
 void write_moisture(void) {
   // text display tests
+  display.drawBitmap(6, 14,  logo16_mois_bmp, 16, 16, 1);
   display.setTextSize(2);
   display.setTextColor(WHITE);
-  display.setCursor(0,10);
+  display.setCursor(26,16);
   //display.setTextColor(BLACK, WHITE); // 'inverted' text
-  display.print("MOIST:");
+  display.print(":");
   display.setTextSize(2);
   display.setTextColor(WHITE);
   display.print((int)value_moisture);
@@ -259,11 +278,12 @@ void write_moisture(void) {
 
 void write_temp(void) {
   // text display tests
+  display.drawBitmap(6, 30,  logo16_temp_bmp, 16, 16, 1);
   display.setTextSize(2);
   display.setTextColor(WHITE);
-  display.setCursor(0,30);
+  display.setCursor(26,32);
   //display.setTextColor(BLACK, WHITE); // 'inverted' text
-  display.print("T:");
+  display.print(":");
   display.setTextSize(2);
   display.setTextColor(WHITE);
   display.print(sensors.getTempCByIndex(0));
