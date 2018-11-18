@@ -1,5 +1,19 @@
 /*********************************************************************
-OsmoZis - POC
+This is an example for our Monochrome OLEDs based on SSD1306 drivers
+
+  Pick one up today in the adafruit shop!
+  ------> http://www.adafruit.com/category/63_98
+
+This example is for a 128x64 size display using SPI to communicate
+4 or 5 pins are required to interface
+
+Adafruit invests time and resources providing this open source code, 
+please support Adafruit and open-source hardware by purchasing 
+products from Adafruit!
+
+Written by Limor Fried/Ladyada  for Adafruit Industries.  
+BSD license, check license.txt for more information
+All text above, and the splash screen must be included in any redistribution
 *********************************************************************/
 
 #include <SPI.h>
@@ -233,14 +247,19 @@ void setup()   {
   delay(1000);
 }
 
+#define MIN_RANGE 330
+#define MAX_RANGE 960
+
 double read_moisture(){
    Serial.print("Moisture: ");
    digitalWrite(MEASURING, LOW);
    value_moisture= analogRead(SENSE_PIN);
-   value_moisture= value_moisture/10;
-   value_moisture= map(value_moisture,33,96,100,0);
-   if(value_moisture>100) value_moisture = 100;
-   if(value_moisture<0) value_moisture = 0;
+
+//experimentally checked range
+   if(value_moisture<MIN_RANGE) value_moisture=MIN_RANGE;
+   if(value_moisture>MAX_RANGE) value_moisture=MAX_RANGE;
+   value_moisture = (1.0f-(value_moisture - MIN_RANGE)/(MAX_RANGE - MIN_RANGE))*100;
+   
    Serial.print(value_moisture);Serial.println("%");
    delay(100);
    digitalWrite(MEASURING, HIGH);
@@ -258,7 +277,7 @@ void write_moisture(void) {
   display.print(":");
   display.setTextSize(2);
   display.setTextColor(WHITE);
-  display.print((int)value_moisture);
+  display.print(value_moisture);
   display.println("%");
 }
 
