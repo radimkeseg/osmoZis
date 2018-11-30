@@ -17,7 +17,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #pragma once
-#define THINGSPEAK_UPDATE_INTERVAL 10*60 //seconds
 
 #define update_username "admin"
 #define update_password "admin"

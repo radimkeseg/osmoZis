@@ -2,23 +2,10 @@
 OsmoZis by Radim Keseg
 *********************************************************************/
 
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include "Adafruit_SSD1306.h"
-
-#include <OneWire.h> 
-#include <DallasTemperature.h>
-#define TEMP_BUS D5 
-OneWire oneWire(TEMP_BUS); 
-DallasTemperature sensors(&oneWire);
-
 #include "embHTML.h"
 #include "settings.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-#include <Interval.h>
-#include <ThingSpeak.h>
 
 // Helps with connecting to internet
 #include <WiFiManager.h>
@@ -29,14 +16,6 @@ DallasTemperature sensors(&oneWire);
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>    
 
-// If using software SPI (the default case):
-#define OLED_MOSI  D3
-#define OLED_CLK   D4
-#define OLED_DC    D1
-#define OLED_CS    D0
-#define OLED_RESET D2
-Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
-
 // HOSTNAME for OTA update
 #define HOSTNAME "OSMOZA-RKG1-"
 
@@ -46,85 +25,20 @@ WiFiManager wifiManager;
 ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer httpUpdater;  
 
+#include "MyMoisture.h"
+MyMoisture myMoisture;
+
+#include "MyDallas.h"
+MyDallas dallas;
+
+#include "MyThingSpeak.h"
 WiFiClient wfclient;
+MyThingSpeak myThingSpeak;
 
-Interval thingSpeakUpdate;
+#include "MyDisplay.h"
+MyDisplay myDisplay;
 
-// ThingSpeak
-unsigned long myChannelNumber = 211292;
-const char * myWriteAPIKey = "CHF36K1C8B6YQUV4";
 
-#define LOGO16_GLCD_HEIGHT 16 
-#define LOGO16_GLCD_WIDTH  16 
-static const unsigned char PROGMEM logo16_mois_bmp[] =
-{ B00000000, B00000000,
-  B00000001, B10000000,
-  B00000010, B01000000,
-  B00000010, B01000000,
-  B00000100, B00100000,
-  B00001000, B00010000,
-  B00010000, B00001000,
-  B00100100, B00000100,
-  B00101000, B00000100,
-  B00100000, B00000100,
-  B00100000, B00000100,
-  B00010000, B00001000,
-  B00001000, B00010000,
-  B00000100, B00100000,
-  B00000011, B11000000,
-  B00000000, B00000000 };
-
-static const unsigned char PROGMEM logo16_temp_bmp[] =
-{ B00000000, B00000000,
-  B00000001, B10000000,
-  B00000011, B11000000,
-  B00000010, B01000000,
-  B00000011, B01000000,
-  B00000010, B01000000,
-  B00000011, B01000000,
-  B00000010, B01000000,
-  B00000011, B01000000,
-  B00000010, B01000000,
-  B00000011, B01000000,
-  B00000100, B00100000,
-  B00001010, B00010000,
-  B00001000, B00010000,
-  B00000111, B11100000,
-  B00000000, B00000000 };
-
-#if (SSD1306_LCDHEIGHT != 64)
-#error("Height incorrect, please fix Adafruit_SSD1306.h!");
-#endif
-
-#define MEASURING D5 // Wet Indicator at Digital pin D0
-#define SENSE_PIN  A0 // sensor input at Analog pin A0
-
-volatile float value_moisture;
-volatile float value_temp;
-
-void write_ThingsSpeak(){
-  if (isnan(value_moisture) || isnan(value_temp))
-  {
-    Serial.println("Failed to read from sensors!");
-    return;
-  }
-
-  Serial.println("ThingsSpeak write");
-  Serial.println("=================");
-  Serial.println("-----------------");
-  Serial.print("Moisture: ");
-  Serial.print(value_moisture);
-  Serial.println("%");
-  Serial.print("Temperature: ");
-  Serial.print(value_temp);
-  Serial.println("C");
-  Serial.println("-----------------");
-
-  //send data to thingSpeak
-  ThingSpeak.setField(1,value_temp);
-  ThingSpeak.setField(2,value_moisture);
-  ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);        
-}
 
 /* webserver handlers */
 void handle_root()
@@ -141,22 +55,7 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   Serial.println("To setup Wifi Configuration");
 }
 
-void write_intro(void) {
-  // text display tests
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.setCursor(0,10);
-  display.setTextColor(BLACK, WHITE); // 'inverted' text
-  display.print("osmoZis");
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0,30);
-  display.print("by Radim Keseg");
 
-  display.setTextColor(WHITE);
-  display.setCursor(0,40);
-  display.print("wifi config ...");
-}
 
 volatile byte state = LOW;
 volatile byte count = 0;
@@ -171,45 +70,26 @@ void ICACHE_RAM_ATTR blink() {
 void setup()   {                
   Serial.begin(9600);
 
-  // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
-  display.begin(SSD1306_SWITCHCAPVCC);
-  // init done
-  
-  // Show image buffer on the display hardware.
-  // Since the buffer is intialized with an Adafruit splashscreen
-  // internally, this will display the splashscreen.
-  display.display();
-
-  // Clear the buffer.
-  display.clearDisplay();
-
-  // miniature bitmap display
-  //display.drawBitmap(30, 16,  logo16_glcd_bmp, 16, 16, 1);
-  display.display();
-
+  // the trick to generate impulses using PWM - 1kHz
   pinMode(MEASURING, OUTPUT);
-
   pinMode(D6, OUTPUT);
   pinMode(D7, INPUT);
   pinMode(D8, OUTPUT);
   analogWrite(D6, 128);
   attachInterrupt(digitalPinToInterrupt(D7), blink, CHANGE);//CHANGE or RISING
 
-  sensors.begin();
-
-  write_intro();
-  display.display();
+  myDisplay.begin();
+  dallas.begin();
+  myDisplay.write_intro();
 
 /*wifi setup*/
   // Uncomment for testing wifi manager
-//  wifiManager.resetSettings();
+  //  wifiManager.resetSettings();
   wifiManager.setAPCallback(configModeCallback);
   //or use this for auto generated name ESP + ChipID
   wifiManager.autoConnect();
-
   //Manual Wifi
   //WiFi.begin(WIFI_SSID, WIFI_PWD);
-
 
   // OTA Setup
   String hostname(HOSTNAME);
@@ -228,89 +108,25 @@ void setup()   {
   MDNS.addService("http", "tcp", 80); 
 /*end wifi setup*/
 
-  ThingSpeak.begin(wfclient);
-    
+  myThingSpeak.begin(wfclient);
   delay(1000);
 }
-
-#define MIN_RANGE 330
-#define MAX_RANGE 960
-
-double read_moisture(){
-   Serial.print("Moisture: ");
-   digitalWrite(MEASURING, LOW);
-   value_moisture= analogRead(SENSE_PIN);
-
-//experimentally checked range
-   if(value_moisture<MIN_RANGE) value_moisture=MIN_RANGE;
-   if(value_moisture>MAX_RANGE) value_moisture=MAX_RANGE;
-   value_moisture = (1.0f-(value_moisture - MIN_RANGE)/(MAX_RANGE - MIN_RANGE))*100;
-   
-   Serial.print(value_moisture);Serial.println("%");
-   delay(100);
-   digitalWrite(MEASURING, HIGH);
-
-   return value_moisture;
-}
-
-void write_moisture(void) {
-  // text display tests
-  display.drawBitmap(6, 14,  logo16_mois_bmp, 16, 16, 1);
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.setCursor(26,16);
-  //display.setTextColor(BLACK, WHITE); // 'inverted' text
-  display.print(":");
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.print(value_moisture);
-  display.println("%");
-}
-
-void write_temp(void) {
-  // text display tests
-  display.drawBitmap(6, 30,  logo16_temp_bmp, 16, 16, 1);
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.setCursor(26,32);
-  //display.setTextColor(BLACK, WHITE); // 'inverted' text
-  display.print(":");
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.print(sensors.getTempCByIndex(0));
-  display.print("C");
-}
-
-double  read_temp(){
- sensors.requestTemperatures(); // Send the command to get temperature readings 
- Serial.print("Temperature: "); 
- value_temp=sensors.getTempCByIndex(0); // Why "byIndex"?
- Serial.print(value_temp);   
- Serial.println("C");   
-
- return value_temp;
-}
-
 
 void loop(void) {
   // Handle web server
   server.handleClient();
 
   Serial.println("Reading sensors:");
-  read_moisture();
-  read_temp();
+  myMoisture.measure();
+  dallas.measure();
+  myThingSpeak.write(dallas.getLastMeasured(),myMoisture.getLastMeasured());
 
-  if (thingSpeakUpdate.expired()) {
-    thingSpeakUpdate.set(THINGSPEAK_UPDATE_INTERVAL*1000); // set new interval period
-    write_ThingsSpeak();
-  }
-
-  display.clearDisplay(); 
-  write_moisture();
-  write_temp();
-  display.display();
+  myDisplay.clearDisplay(); 
+  myDisplay.write_moisture(myMoisture.getLastMeasured());
+  myDisplay.write_temp(dallas.getLastMeasured());
+  myDisplay.showDisplay();
+  
   Serial.println("");
-
   delay(10000);
 }
 
