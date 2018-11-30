@@ -13,4 +13,4 @@ external libraries
 #include <Interval.h>
 #include <ThingSpeak.h>
 
-and ESP8266 librarie
+and ESP8266 libraries
