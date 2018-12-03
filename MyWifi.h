@@ -45,7 +45,7 @@ public:
     delete httpUpdater;
   }
 
-  void setup();
+  void setup(char* APname, int timeout_in_sec);
   void handleClient();
   WiFiClient& getWifiClient();
 };

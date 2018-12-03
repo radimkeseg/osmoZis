@@ -46,7 +46,7 @@ void setup()   {
   myDallas.begin();
   myDisplay.write_intro();
 
-  myWifi.setup();
+  myWifi.setup("osmoZis",180);
 
   myThingSpeak.begin(myWifi.getWifiClient());
   delay(1000);
