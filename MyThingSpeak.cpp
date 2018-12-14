@@ -19,8 +19,8 @@ void MyThingSpeak::write_internal(float temparature, float moisture){
   Serial.println("-----------------");
 
   //send data to thingSpeak
-  ThingSpeak.setField(1,temparature);
-  ThingSpeak.setField(2,moisture);
+  ThingSpeak.setField(7,temparature);
+  ThingSpeak.setField(8,moisture);
   ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);        
 }
 
