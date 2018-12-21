@@ -55,7 +55,7 @@ void MyDisplay::write_temp(float temperature) {
 void MyDisplay::write_time(const char* formatedTime){
   display->setTextSize(1);
   display->setTextColor(WHITE);
-  display->setCursor(60,8);
+  display->setCursor(76,8);
   display->print(formatedTime);
 }
 

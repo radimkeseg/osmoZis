@@ -125,6 +125,11 @@ String TimeClient::getFormattedTime() {
   return getHours() + ":" + getMinutes() + ":" + getSeconds();
 }
 
+String TimeClient::getFormattedTimeShort() {
+  checkForUpdate();
+  return getHours() + ":" + getMinutes();
+}
+
 long TimeClient::getCurrentEpoch() {
   return localEpoc + ((millis() - localMillisAtUpdate) / 1000);
 }

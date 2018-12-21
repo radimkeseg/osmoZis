@@ -87,13 +87,15 @@ void loop(void) {
     myMoisture.measure();
     myDallas.measure();
     myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
-  }
+  
 
   myDisplay.clearDisplay(); 
   myDisplay.write_moisture(myMoisture.getLastMeasured());
   myDisplay.write_temp(myDallas.getLastMeasured());
-  myDisplay.write_time(timeClient.getFormattedTime().c_str());
+  myDisplay.write_time(timeClient.getFormattedTimeShort().c_str());
   myDisplay.showDisplay();
+
+  }
   
   Serial.print(".");
   delay(1000);
