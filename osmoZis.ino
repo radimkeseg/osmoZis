@@ -34,6 +34,16 @@ void ICACHE_RAM_ATTR blink() {
   digitalWrite(D8, state);
 }
 
+static String stFncHandleData(){
+  String res;
+  res = "{\"temp\":\"";
+  res += myDallas.getLastMeasured();
+  res += "\",\"mois\":\"";
+  res += myMoisture.getLastMeasured();
+  res += "\"}";
+  return res;
+}
+
 void setup()   {                
   Serial.begin(9600);
 
@@ -50,6 +60,7 @@ void setup()   {
   myDisplay.write_intro();
 
   myWifi.setup("osmoZis",180);
+  myWifi.setDataHandler( stFncHandleData );
 
   myThingSpeak.begin(myWifi.getWifiClient());
   timeClient.setTimeOffset(  myWifi.getCustomSettings().settings.UTC_OFFSET+myWifi.getCustomSettings().settings.DST );

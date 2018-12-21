@@ -28,9 +28,23 @@ void MyWifi::handle_store_settings(){
   }
   server->send(200, "text/html", "OK");
   
-  delay(500);
-  ESP.reset(); 
+  delay(1000);
+  ESP.reset();
+  delay(3000); 
 } 
+
+void MyWifi::handle_data(){
+  if(fDataHandler!=NULL){
+      server->send(200, "application/json", fDataHandler());
+  }else{
+      server->send(200, "application/json", "{}");
+  }
+}
+
+void MyWifi::setDataHandler(fncHandleData fDataHandler){
+  this->fDataHandler = fDataHandler;
+}
+
 
 //---------------------------------------------------------
 
@@ -73,6 +87,7 @@ void MyWifi::setup(char* APname, int timeout_in_sec){
   //user setting handling
   server->on("/", std::bind(&MyWifi::handle_root, this));
   server->on("/offset", std::bind(&MyWifi::handle_store_settings,this)); 
+  server->on("/data",  std::bind(&MyWifi::handle_data,this)); 
 
   server->begin(); 
   Serial.println("HTTP server started");

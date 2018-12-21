@@ -17,7 +17,7 @@
 // HOSTNAME for OTA update
 #define HOSTNAME "OSMOZA-RKG1-"
 
-
+typedef String (*fncHandleData)();
 
 class MyWifi{
 private:
@@ -30,9 +30,13 @@ private:
   WiFiClient *wfclient;
   CustomSettings cs;
 
+
   void handle_root();
   void handle_store_settings();
   void configModeCallBack(WiFiManager *myWiFiManager);
+
+  fncHandleData fDataHandler;
+  void handle_data();
 
 public:
   MyWifi(){
@@ -52,4 +56,6 @@ public:
   void handleClient();
   WiFiClient& getWifiClient();
   CustomSettings& getCustomSettings();
+
+  void setDataHandler(fncHandleData fDataHandler);
 };
