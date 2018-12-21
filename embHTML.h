@@ -13,6 +13,11 @@ const char PAGE_INDEX[] PROGMEM = R"=====(
 by Radim Keseg
 <p/>
 
+<form method='post' action='offset'>
+<label>UTC TimeOffset<br><input id='_timeoffset' name='_timeoffset' length=5 pattern='^[0-9-\\.]{1,5}$' required value='{timeoffset}'></label><br>
+<label>DST<br><input id='_dst' name='_dst' type='checkbox' {dst}></label><br>
+<input type='submit' value='Store'></form>
+
 </body>
 </html>
 )=====";

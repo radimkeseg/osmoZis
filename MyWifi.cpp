@@ -4,7 +4,32 @@
 void MyWifi::handle_root()
 {
   String content = FPSTR(PAGE_INDEX);      
+
+  content.replace("{timeoffset}", String(cs.settings.UTC_OFFSET).c_str() );
+  
+  if (cs.settings.DST) content.replace("{dst}", "checked='checked'");
+  else    content.replace("{dst}", "");
+  
   server->send(200, "text/html", content);
+} 
+
+
+void MyWifi::handle_store_settings(){
+  if(server->arg("_dst")==NULL && server->arg("_timeoffset")==NULL ){
+    Serial.println("setting page refreshed only, no params");      
+  }else{
+    Serial.println("settings changed");  
+
+    cs.settings.UTC_OFFSET = atof(server->arg("_timeoffset").c_str());
+    cs.settings.DST = server->arg("_dst").length()>0;    
+    
+    cs.print();          
+    cs.write();
+  }
+  server->send(200, "text/html", "OK");
+  
+  delay(500);
+  ESP.reset(); 
 } 
 
 //---------------------------------------------------------
@@ -41,8 +66,13 @@ void MyWifi::setup(char* APname, int timeout_in_sec){
   MDNS.begin( (hostname+"-webupdate").c_str() );
   httpUpdater->setup(server, "/firmware", update_username, update_password );
 
+  cs.init();
+  cs.read();   
+  cs.print();
+
   //user setting handling
   server->on("/", std::bind(&MyWifi::handle_root, this));
+  server->on("/offset", std::bind(&MyWifi::handle_store_settings,this)); 
 
   server->begin(); 
   Serial.println("HTTP server started");
@@ -58,5 +88,9 @@ void MyWifi::handleClient(){
 WiFiClient& MyWifi::getWifiClient(){
   if(wfclient==NULL) wfclient = new WiFiClient();
   return *wfclient;
+}
+
+CustomSettings& MyWifi::getCustomSettings(){
+   return cs;
 }
 

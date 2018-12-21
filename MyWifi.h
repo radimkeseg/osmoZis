@@ -18,6 +18,7 @@
 #define HOSTNAME "OSMOZA-RKG1-"
 
 
+
 class MyWifi{
 private:
 //WiFiManager
@@ -27,8 +28,10 @@ private:
   ESP8266HTTPUpdateServer *httpUpdater;
 
   WiFiClient *wfclient;
+  CustomSettings cs;
 
   void handle_root();
+  void handle_store_settings();
   void configModeCallBack(WiFiManager *myWiFiManager);
 
 public:
@@ -48,4 +51,5 @@ public:
   void setup(char* APname, int timeout_in_sec);
   void handleClient();
   WiFiClient& getWifiClient();
+  CustomSettings& getCustomSettings();
 };

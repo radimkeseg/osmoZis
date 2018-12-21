@@ -18,6 +18,9 @@ MyDisplay myDisplay;
 #include "MyWifi.h"
 MyWifi myWifi;
 
+#include "TimeClient.h"
+TimeClient timeClient(1);
+
 
 
 //osmoZis generator 200Hz
@@ -49,24 +52,39 @@ void setup()   {
   myWifi.setup("osmoZis",180);
 
   myThingSpeak.begin(myWifi.getWifiClient());
+  timeClient.setTimeOffset(  myWifi.getCustomSettings().settings.UTC_OFFSET+myWifi.getCustomSettings().settings.DST );
+  myWifi.getCustomSettings().print();
+  
+  timeClient.updateTime();
+  
   delay(1000);
 }
+
+long stamp = 0;
+long last_time_update = 2147483647; //MAX_LONG
+long time_update_interval = 30*1000; //30 secs
 
 void loop(void) {
   // Handle web server
   myWifi.handleClient();
+  
+  stamp = millis();
+  if(stamp - last_time_update > time_update_interval || stamp < last_time_update ){ //read if the update interval has expired only
+    last_time_update = stamp;
 
-  Serial.println("Reading sensors:");
-  myMoisture.measure();
-  myDallas.measure();
-  myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+    Serial.println("Reading sensors:");
+    myMoisture.measure();
+    myDallas.measure();
+    myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+  }
 
   myDisplay.clearDisplay(); 
   myDisplay.write_moisture(myMoisture.getLastMeasured());
   myDisplay.write_temp(myDallas.getLastMeasured());
+  myDisplay.write_time(timeClient.getFormattedTime().c_str());
   myDisplay.showDisplay();
   
-  Serial.println("");
-  delay(10000);
+  Serial.print(".");
+  delay(1000);
 }
 

@@ -1,15 +1,17 @@
-#pragma once
-#include <FS.h> 
 /**The MIT License (MIT)
-Copyright (c) 2019 by Radim Keseg
+
+Copyright (c) 2017 by Radim Keseg
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,38 +20,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+#pragma once
 
-#define update_username "admin"
-#define update_password "admin"
+#include <ESP8266WiFi.h>
 
-// TimeClient settings
-typedef struct
-{
-  float UTC_OFFSET;
-  boolean DST; 
-} settings_t;
+class TimeClient {
 
-
-/***************************
- * End Settings
- **************************/
-
-class CustomSettings{
   private:
-     const String CUSTOM_SETTINGS = "/settings/custom.txt";
-  
+    float myUtcOffset = 0;
+    long localEpoc = 0;
+    long localMillisAtUpdate;
+
+    const long time_update_interval = 12*60*60*1000; //update every 12 hrs
+    long last_time_update = time_update_interval;
+    void checkForUpdate();
+        
   public:
-    settings_t settings;
+    TimeClient() : TimeClient(0) {}
+    TimeClient(float utcOffset);
+    void setTimeOffset(float utcOffset);
+    void updateTime();
 
-    CustomSettings(){
-      settings.UTC_OFFSET = 1;
-      settings.DST = false;
-    }
-    void init();
+    String getHours();
+    String getMinutes();
+    String getSeconds();
+    String getFormattedTime();
+    long getCurrentEpoch();
+    long getCurrentEpochWithUtcOffset();
 
-    void write();
-    void read();
-    void print();
-}; 
+    int getHoursInt();
+    int getMinutesInt();
+    int getSecondsInt();
 
+};
 

@@ -8,7 +8,7 @@
 // If using software SPI (the default case):
 #define OLED_MOSI  D3
 #define OLED_CLK   D4
-#define OLED_DC    D1
+#define OLED_DC    D1 
 #define OLED_CS    D0
 #define OLED_RESET D2
 
@@ -74,5 +74,6 @@ public:
   void write_intro();
   void write_moisture(float moisture);
   void write_temp(float temperature);
+  void write_time(const char* formatedTime);
 };
 
