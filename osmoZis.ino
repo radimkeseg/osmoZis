@@ -21,18 +21,7 @@ MyWifi myWifi;
 #include "TimeClient.h"
 TimeClient timeClient(1);
 
-
-
-//osmoZis generator 200Hz
-volatile byte state = LOW;
-volatile byte count = 0;
-void ICACHE_RAM_ATTR blink() {
-  if(count == 0) state = !state;
-  if(count == 1) state = !state;
-  if(count == 9) count = 0; //==9 if CHANGE or ==4 if RISING
-  else count++;
-  digitalWrite(D8, state);
-}
+#include "MyOsmoZis.h"
 
 static String stFncHandleData(){
   String res;
@@ -47,13 +36,7 @@ static String stFncHandleData(){
 void setup()   {                
   Serial.begin(9600);
 
-  // the trick to generate impulses using PWM - 1kHz
-  pinMode(MEASURING, OUTPUT);
-  pinMode(D6, OUTPUT);
-  pinMode(D7, INPUT);
-  pinMode(D8, OUTPUT);
-  analogWrite(D6, 128);
-  attachInterrupt(digitalPinToInterrupt(D7), blink, CHANGE);//CHANGE or RISING
+  setupOsmoZis();  
 
   myDisplay.begin();
   myDallas.begin();
