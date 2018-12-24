@@ -73,7 +73,7 @@ void setup()   {
 
 long stamp = 0;
 long last_time_update = 2147483647; //MAX_LONG
-long time_update_interval = 30*1000; //30 secs
+long time_update_interval = THINGSPEAK_UPDATE_INTERVAL*1000; //10 min
 
 void loop(void) {
   // Handle web server
@@ -86,18 +86,28 @@ void loop(void) {
     Serial.println("Reading sensors:");
     myMoisture.measure();
     myDallas.measure();
-    myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+//    myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured()); //uncomment once tested
+
+    myDisplay.clearDisplay(); 
   
-
-  myDisplay.clearDisplay(); 
-  myDisplay.write_moisture(myMoisture.getLastMeasured());
-  myDisplay.write_temp(myDallas.getLastMeasured());
-  myDisplay.write_time(timeClient.getFormattedTimeShort().c_str());
-  myDisplay.showDisplay();
-
+    myDisplay.write_IP(0,1, myWifi.getIP().c_str());
+    myDisplay.write_time(127,1, timeClient.getFormattedTimeShort().c_str());
+    
+    myDisplay.write_moisture( 0,24,  myMoisture.getLastMeasured());
+      myDisplay.write_gauge( 96,23, myMoisture.getLastMeasured(),false,0,30);
+    myDisplay.write_temp(     0,44,  myDallas.getLastMeasured());
+      myDisplay.write_gauge( 96,43, myDallas.getLastMeasured(),false,0,30);
+  
+    myDisplay.showDisplay();
   }
+
+  myDisplay.clear_rect(0,0,127,9);
+  myDisplay.write_IP(0,1, myWifi.getIP().c_str());
+  myDisplay.write_time(127,1, timeClient.getFormattedTimeShort().c_str());
+  myDisplay.write_progress(0,10,127,1,stamp,false,last_time_update,last_time_update+time_update_interval);
+  myDisplay.showDisplay();
   
   Serial.print(".");
-  delay(1000);
+  delay(500);
 }
 

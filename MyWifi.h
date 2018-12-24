@@ -38,6 +38,8 @@ private:
   fncHandleData fDataHandler;
   void handle_data();
 
+  void restart(unsigned int inSec = 3);
+
 public:
   MyWifi(){
     wifiManager = new WiFiManager();
@@ -51,6 +53,9 @@ public:
     delete server;
     delete httpUpdater;
   }
+
+  String getIP();
+  String getMAC();
 
   void setup(char* APname, int timeout_in_sec);
   void handleClient();
