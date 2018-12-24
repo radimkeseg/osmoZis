@@ -33,6 +33,10 @@ static String stFncHandleData(){
   return res;
 }
 
+long stamp = 0;
+long last_time_update = 2147483647; //MAX_LONG
+long time_update_interval = 600*1000; //default 10 min
+
 void setup()   {                
   Serial.begin(9600);
 
@@ -46,17 +50,18 @@ void setup()   {
   myWifi.setDataHandler( stFncHandleData );
 
   myThingSpeak.begin(myWifi.getWifiClient());
+  myThingSpeak.setup(myWifi.getCustomSettings().settings.TS_CHANNEL, myWifi.getCustomSettings().settings.TS_API_WRITE, myWifi.getCustomSettings().settings.TS_FIELD_TEMP, myWifi.getCustomSettings().settings.TS_FIELD_MOIS, myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL);
+  
   timeClient.setTimeOffset(  myWifi.getCustomSettings().settings.UTC_OFFSET+myWifi.getCustomSettings().settings.DST );
   myWifi.getCustomSettings().print();
   
   timeClient.updateTime();
+
+
+  time_update_interval = ((myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL<=0)?(600):(myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL))*1000; //default 10 min
   
   delay(1000);
 }
-
-long stamp = 0;
-long last_time_update = 2147483647; //MAX_LONG
-long time_update_interval = THINGSPEAK_UPDATE_INTERVAL*1000; //10 min
 
 void loop(void) {
   // Handle web server
@@ -69,7 +74,18 @@ void loop(void) {
     Serial.println("Reading sensors:");
     myMoisture.measure();
     myDallas.measure();
-//    myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured()); //uncomment once tested
+    
+    //Serial.print("TS: "); Serial.println(myWifi.getCustomSettings().settings.THINGSPEAK);
+    if(myWifi.getCustomSettings().settings.THINGSPEAK){
+      /*
+      Serial.print("channel: "); Serial.println(myThingSpeak.channelNumber);
+      Serial.print("write api key: "); Serial.println(myThingSpeak.writeAPIKey);
+      Serial.print("field temp #"); Serial.println(myThingSpeak.field_temp);
+      Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
+      Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
+      */
+      myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+    }
 
     myDisplay.clearDisplay(); 
   
@@ -90,7 +106,7 @@ void loop(void) {
   myDisplay.write_progress(0,10,127,1,stamp,false,last_time_update,last_time_update+time_update_interval);
   myDisplay.showDisplay();
   
-  Serial.print(".");
-  delay(500);
+  //Serial.print(".");
+  delay(1000);
 }
 

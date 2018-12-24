@@ -19,15 +19,24 @@ void MyThingSpeak::write_internal(float temparature, float moisture){
   Serial.println("-----------------");
 
   //send data to thingSpeak
-  ThingSpeak.setField(7,temparature);
-  ThingSpeak.setField(8,moisture);
-  ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);        
+  ThingSpeak.setField(field_temp,temparature);
+  ThingSpeak.setField(field_mois,moisture);
+  ThingSpeak.writeFields(channelNumber, writeAPIKey);        
 }
+
+void MyThingSpeak::setup(unsigned long channelNumber, const char *writeAPIKey, unsigned int field_temp, unsigned int field_mois, unsigned int update_interval){
+   this->channelNumber = channelNumber;
+   strncpy(this->writeAPIKey, String(writeAPIKey).c_str(), 17); 
+   this->field_temp = field_temp;
+   this->field_mois = field_mois;
+   this->update_interval = update_interval;
+}
+
 
 void MyThingSpeak::write(float temperature, float moisture){
 
   if (thingSpeakUpdate.expired()) {
-    thingSpeakUpdate.set(THINGSPEAK_UPDATE_INTERVAL*1000); // set new interval period
+    thingSpeakUpdate.set(update_interval*1000); // set new interval period
     write_internal(temperature,moisture);
   }
 

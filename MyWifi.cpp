@@ -6,9 +6,16 @@ void MyWifi::handle_root()
   String content = FPSTR(PAGE_INDEX);      
 
   content.replace("{timeoffset}", String(cs.settings.UTC_OFFSET).c_str() );
-  
   if (cs.settings.DST) content.replace("{dst}", "checked='checked'");
   else    content.replace("{dst}", "");
+
+  if (cs.settings.THINGSPEAK) content.replace("{ts}", "checked='checked'");
+  else    content.replace("{ts}", "");
+  content.replace("{ts_channel}", String(cs.settings.TS_CHANNEL).c_str() );
+  content.replace("{ts_write_api_key}", String(cs.settings.TS_API_WRITE).c_str() );
+  content.replace("{ts_field_temp}", String(cs.settings.TS_FIELD_TEMP).c_str() );
+  content.replace("{ts_field_mois}", String(cs.settings.TS_FIELD_MOIS).c_str() );
+  content.replace("{ts_update_interval}", String(cs.settings.TS_UPDATE_INTERVAL).c_str() );
   
   server->send(200, "text/html", content);
 } 
@@ -22,11 +29,19 @@ void MyWifi::handle_store_settings(){
 
     cs.settings.UTC_OFFSET = atof(server->arg("_timeoffset").c_str());
     cs.settings.DST = server->arg("_dst").length()>0;    
-    
+
+    cs.settings.THINGSPEAK = server->arg("_ts").length()>0;
+        
+    cs.settings.TS_CHANNEL = atol(server->arg("_ts_channel").c_str());
+    strncpy(cs.settings.TS_API_WRITE, server->arg("_ts_write_api_key").c_str(), 17); 
+    cs.settings.TS_FIELD_TEMP = atoi(server->arg("_ts_field_temp").c_str());
+    cs.settings.TS_FIELD_MOIS = atoi(server->arg("_ts_field_mois").c_str());
+    cs.settings.TS_UPDATE_INTERVAL = atoi(server->arg("_ts_update_interval").c_str());
+
     cs.print();          
     cs.write();
   }
-  server->send(200, "text/html", "OK");
+  server->send(200, "text/html", "OK - restart");
   
   restart(1);
 } 

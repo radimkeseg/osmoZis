@@ -27,6 +27,13 @@ typedef struct
 {
   float UTC_OFFSET;
   boolean DST; 
+
+  boolean THINGSPEAK;
+  unsigned long TS_CHANNEL;
+  char TS_API_WRITE[17];
+  unsigned int TS_FIELD_TEMP;
+  unsigned int TS_FIELD_MOIS; 
+  unsigned int TS_UPDATE_INTERVAL;  
 } settings_t;
 
 
@@ -44,6 +51,8 @@ class CustomSettings{
     CustomSettings(){
       settings.UTC_OFFSET = 1;
       settings.DST = false;
+      settings.THINGSPEAK = false;
+      settings.TS_UPDATE_INTERVAL=10*60;
     }
     void init();
 

@@ -66,7 +66,15 @@ void CustomSettings::read(){
 }
 
 void CustomSettings::print(){    
+    Serial.println("Time");
     Serial.print("UTC TimeOffset: "); Serial.println(settings.UTC_OFFSET);
     Serial.print("DST: "); Serial.println(settings.DST);
+
+    Serial.println("ThingSpeak");
+    Serial.print("channel: "); Serial.println(settings.TS_CHANNEL);
+    Serial.print("write api key: "); Serial.println(settings.TS_API_WRITE);
+    Serial.print("field temp #"); Serial.println(settings.TS_FIELD_TEMP);
+    Serial.print("field mois #"); Serial.println(settings.TS_FIELD_MOIS);
+    Serial.print("update interval: "); Serial.print(settings.TS_UPDATE_INTERVAL); Serial.println("s");
 }
 
