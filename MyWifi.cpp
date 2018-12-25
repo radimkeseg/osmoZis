@@ -63,8 +63,8 @@ void MyWifi::restart(unsigned int inSec){
     //reset and try again, or maybe put it to deep sleep
     Serial.print("restart in "); Serial.print(inSec); Serial.println(" sec");    
     digitalWrite(0,HIGH);  //from some reason this has to be set before reset|restart https://github.com/esp8266/Arduino/issues/1017
-    ESP.restart();
-    delay(inSec*1000);  
+    ESP.reset();
+    delay(5000);  
 }
 
 //---------------------------------------------------------

@@ -38,8 +38,6 @@ private:
   fncHandleData fDataHandler;
   void handle_data();
 
-  void restart(unsigned int inSec = 3);
-
 public:
   MyWifi(){
     wifiManager = new WiFiManager();
@@ -53,6 +51,8 @@ public:
     delete server;
     delete httpUpdater;
   }
+
+  void restart(unsigned int inSec = 3);
 
   String getIP();
   String getMAC();

@@ -37,16 +37,36 @@ long stamp = 0;
 long last_time_update = 2147483647; //MAX_LONG
 long time_update_interval = 600*1000; //default 10 min
 
+#define TRIGGER_PIN 0
+#define AP_NAME "OsmoZis-v2"
+
 void setup()   {                
   Serial.begin(9600);
 
   setupOsmoZis();  
 
   myDisplay.begin();
-  myDallas.begin();
   myDisplay.write_intro();
 
-  myWifi.setup("osmoZis",180);
+  pinMode(TRIGGER_PIN, INPUT); //when flash pressed get to wifi config portal
+  for(int i=0; i<100; i++){
+    Serial.println("manual config portal triggered ");
+    if ( digitalRead(TRIGGER_PIN) == LOW ) {
+      WiFiManager wifiManager;
+      if (!wifiManager.startConfigPortal((String(AP_NAME)+"-OnDemandAP").c_str())) {
+        Serial.println("failed to connect and hit timeout");
+        myWifi.restart(3);
+      }
+      Serial.println("connecting again ...)");
+    }
+    delay(50);
+  }
+
+  myDisplay.begin();
+  myDallas.begin();
+
+ 
+  myWifi.setup(AP_NAME,180);
   myWifi.setDataHandler( stFncHandleData );
 
   myThingSpeak.begin(myWifi.getWifiClient());
@@ -84,7 +104,7 @@ void loop(void) {
       Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
       Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
       */
-      myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+      //myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
     }
 
     myDisplay.clearDisplay(); 
