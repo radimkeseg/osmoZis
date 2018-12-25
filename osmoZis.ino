@@ -62,7 +62,7 @@ void setup()   {
 
   myDallas.begin();
 
-  myWifi.setup(AP_NAME,/*60*/10);
+  myWifi.setup(AP_NAME,60); //1 min to configure the WIFI 
   myWifi.setDataHandler( stFncHandleData );
 
   myThingSpeak.begin(myWifi.getWifiClient());

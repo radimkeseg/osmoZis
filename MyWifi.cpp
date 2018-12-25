@@ -68,7 +68,7 @@ void MyWifi::restart(unsigned int inSec){
 }
 
 void MyWifi::forceManualConfig(const char* APname){
-      if (!wifiManager->startConfigPortal((String(APname)+"-OnDemandAP").c_str())) {
+      if (!wifiManager->startConfigPortal(APname)) {
         Serial.println("failed to connect and hit timeout");
         restart(3);
       }  
