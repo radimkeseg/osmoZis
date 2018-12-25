@@ -59,9 +59,10 @@ void setup()   {
   }
 
   myDisplay.begin();
+  myDisplay.write_intro();
+
   myDallas.begin();
 
- 
   myWifi.setup(AP_NAME,60);
   myWifi.setDataHandler( stFncHandleData );
 
@@ -100,7 +101,7 @@ void loop(void) {
       Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
       Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
       */
-      myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+      //myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
     }
 
     myDisplay.clearDisplay(); 

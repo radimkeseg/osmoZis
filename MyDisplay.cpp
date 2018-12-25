@@ -20,9 +20,9 @@ void MyDisplay::write_intro(bool manual) {
   display->print("by Radim Keseg");
 
   display->setTextColor(WHITE);
-  display->setCursor(10,46);
-  if(manual) display->print("manual wifi config (1s)");
-  else display->print("auto  wifi config (60s)");
+  display->setCursor(0,54);
+  if(manual) display->print("manual wifi config 1s");
+  else display->print("auto wifi config 1min");
   
   showDisplay(); 
 }
