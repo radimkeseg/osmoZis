@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Interval.h>
+#include "Interval.h"
 #include <ThingSpeak.h>
 
 #define THINGSPEAK_UPDATE_INTERVAL 10*60 //seconds

@@ -57,6 +57,7 @@ public:
 
   String getIP();
   String getMAC();
+  bool isConnected();
 
   void setup(const char* APname, int timeout_in_sec);
   void handleClient();

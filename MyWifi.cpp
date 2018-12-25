@@ -93,6 +93,11 @@ String MyWifi::getMAC(){
   return WiFi.macAddress();
 }
 
+bool MyWifi::isConnected(){
+  return WiFi.status() == WL_CONNECTED;
+}
+
+
 //---------------------------------------------------------
 void MyWifi::setup(const char* APname, int timeout_in_sec){
   // Uncomment for testing wifi manager

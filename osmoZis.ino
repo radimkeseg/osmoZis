@@ -33,9 +33,8 @@ static String stFncHandleData(){
   return res;
 }
 
-long stamp = 0;
-long last_time_update = 2147483647; //MAX_LONG
-long time_update_interval = 600*1000; //default 10 min
+Interval measurementUpdate;
+long update_interval = 600*1000; //default 10 min
 
 #define TRIGGER_PIN 0
 #define AP_NAME "OsmoZis-v2"
@@ -63,7 +62,7 @@ void setup()   {
 
   myDallas.begin();
 
-  myWifi.setup(AP_NAME,60);
+  myWifi.setup(AP_NAME,/*60*/10);
   myWifi.setDataHandler( stFncHandleData );
 
   myThingSpeak.begin(myWifi.getWifiClient());
@@ -75,7 +74,7 @@ void setup()   {
   timeClient.updateTime();
 
 
-  time_update_interval = ((myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL<=0)?(600):(myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL))*1000; //default 10 min
+  update_interval = ((myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL<=0)?(600):(myWifi.getCustomSettings().settings.TS_UPDATE_INTERVAL)); //default 10 min
   
   delay(1000);
 }
@@ -84,26 +83,13 @@ void loop(void) {
   // Handle web server
   myWifi.handleClient();
   
-  stamp = millis();
-  if(stamp - last_time_update > time_update_interval || stamp < last_time_update ){ //read if the update interval has expired only
-    last_time_update = stamp;
+  if(measurementUpdate.expired()){ //read if the update interval has expired only
+    measurementUpdate.set(update_interval*1000); // set new interval period 
 
     Serial.println("Reading sensors:");
     myMoisture.measure();
     myDallas.measure();
     
-    //Serial.print("TS: "); Serial.println(myWifi.getCustomSettings().settings.THINGSPEAK);
-    if(myWifi.getCustomSettings().settings.THINGSPEAK){
-      /*
-      Serial.print("channel: "); Serial.println(myThingSpeak.channelNumber);
-      Serial.print("write api key: "); Serial.println(myThingSpeak.writeAPIKey);
-      Serial.print("field temp #"); Serial.println(myThingSpeak.field_temp);
-      Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
-      Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
-      */
-      myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
-    }
-
     myDisplay.clearDisplay(); 
   
     myDisplay.write_IP(0,1, myWifi.getIP().c_str());
@@ -115,12 +101,28 @@ void loop(void) {
       myDisplay.write_gauge( 96,43, myDallas.getLastMeasured(),false,0,30);
   
     myDisplay.showDisplay();
+
+    //Serial.print("TS: "); Serial.println(myWifi.getCustomSettings().settings.THINGSPEAK);
+    if(myWifi.getCustomSettings().settings.THINGSPEAK){
+      /*
+      Serial.print("channel: "); Serial.println(myThingSpeak.channelNumber);
+      Serial.print("write api key: "); Serial.println(myThingSpeak.writeAPIKey);
+      Serial.print("field temp #"); Serial.println(myThingSpeak.field_temp);
+      Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
+      Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
+      */
+      if(myWifi.isConnected()){
+        myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+      }
+    }
+  
   }
 
   myDisplay.clear_rect(0,0,127,9);
   myDisplay.write_IP(0,1, myWifi.getIP().c_str());
   myDisplay.write_time(127,1, timeClient.getFormattedTimeShort().c_str());
-  myDisplay.write_progress(0,10,127,1,stamp,false,last_time_update,last_time_update+time_update_interval);
+  myDisplay.write_progress(0,10,127,1,measurementUpdate.elapsed()/1000,false,0,measurementUpdate.getTimeout()/1000);
+  Serial.print("time elapsed: ");Serial.print(measurementUpdate.elapsed()/1000);Serial.print("time remains: ");Serial.println(measurementUpdate.remains()/1000);
   myDisplay.showDisplay();
   
   //Serial.print(".");
