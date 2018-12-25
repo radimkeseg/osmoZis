@@ -89,7 +89,7 @@ public:
   void showDisplay();
   void clearDisplay();
   
-  void write_intro();
+  void write_intro(bool manual=false);
 
   void write_moisture(int x, int y, float moisture);
   void write_temp(int x, int y, float temperature);

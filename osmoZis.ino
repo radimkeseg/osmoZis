@@ -46,17 +46,13 @@ void setup()   {
   setupOsmoZis();  
 
   myDisplay.begin();
-  myDisplay.write_intro();
+  myDisplay.write_intro(true);
 
   pinMode(TRIGGER_PIN, INPUT); //when flash pressed get to wifi config portal
   for(int i=0; i<100; i++){
-    Serial.println("manual config portal triggered ");
     if ( digitalRead(TRIGGER_PIN) == LOW ) {
-      WiFiManager wifiManager;
-      if (!wifiManager.startConfigPortal((String(AP_NAME)+"-OnDemandAP").c_str())) {
-        Serial.println("failed to connect and hit timeout");
-        myWifi.restart(3);
-      }
+      Serial.println("manual config portal triggered ");
+      myWifi.forceManualConfig((String(AP_NAME)+"-OnDemandAP").c_str());
       Serial.println("connecting again ...)");
     }
     delay(50);
@@ -66,7 +62,7 @@ void setup()   {
   myDallas.begin();
 
  
-  myWifi.setup(AP_NAME,180);
+  myWifi.setup(AP_NAME,60);
   myWifi.setDataHandler( stFncHandleData );
 
   myThingSpeak.begin(myWifi.getWifiClient());
@@ -104,7 +100,7 @@ void loop(void) {
       Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
       Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
       */
-      //myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
+      myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
     }
 
     myDisplay.clearDisplay(); 

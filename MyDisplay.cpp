@@ -7,7 +7,7 @@ void MyDisplay::begin(){
   display->clearDisplay();
 }
 
-void MyDisplay::write_intro() {
+void MyDisplay::write_intro(bool manual) {
   // text display tests
   display->setTextSize(2);
   display->setTextColor(WHITE);
@@ -20,8 +20,9 @@ void MyDisplay::write_intro() {
   display->print("by Radim Keseg");
 
   display->setTextColor(WHITE);
-  display->setCursor(20,46);
-  display->print("wifi config ...");
+  display->setCursor(10,46);
+  display->print("manual wifi config  (1s)");
+  display->print("auto   wifi config (60s)");
   
   showDisplay(); 
 }

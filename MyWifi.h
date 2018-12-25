@@ -53,11 +53,12 @@ public:
   }
 
   void restart(unsigned int inSec = 3);
+  void forceManualConfig(const char* APname);
 
   String getIP();
   String getMAC();
 
-  void setup(char* APname, int timeout_in_sec);
+  void setup(const char* APname, int timeout_in_sec);
   void handleClient();
   WiFiClient& getWifiClient();
   CustomSettings& getCustomSettings();

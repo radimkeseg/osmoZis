@@ -67,6 +67,14 @@ void MyWifi::restart(unsigned int inSec){
     delay(5000);  
 }
 
+void MyWifi::forceManualConfig(const char* APname){
+      if (!wifiManager->startConfigPortal((String(APname)+"-OnDemandAP").c_str())) {
+        Serial.println("failed to connect and hit timeout");
+        restart(3);
+      }  
+}
+
+
 //---------------------------------------------------------
 String MyWifi::getIP(){
   char ipAddr[16]; //aaa.bbb.ccc.ddd
@@ -86,7 +94,7 @@ String MyWifi::getMAC(){
 }
 
 //---------------------------------------------------------
-void MyWifi::setup(char* APname, int timeout_in_sec){
+void MyWifi::setup(const char* APname, int timeout_in_sec){
   // Uncomment for testing wifi manager
   //  wifiManager.resetSettings();
   //or use this for auto generated name ESP + ChipID
@@ -107,7 +115,9 @@ void MyWifi::setup(char* APname, int timeout_in_sec){
   Serial.println("AP: "+hostname);
   if(!wifiManager->autoConnect( hostname.c_str() ) ){
     Serial.println("failed to connect and hit timeout");
-    restart();
+    
+    Serial.println("switching to no wifi mode");
+    //restart(); //no wifi mode - uncomment the restart() if endess retry is needed
   }else{     
       // OTA Setup
       WiFi.hostname(hostname);
