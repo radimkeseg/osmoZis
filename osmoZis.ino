@@ -102,15 +102,7 @@ void loop(void) {
   
     myDisplay.showDisplay();
 
-    //Serial.print("TS: "); Serial.println(myWifi.getCustomSettings().settings.THINGSPEAK);
-    if(myWifi.getCustomSettings().settings.THINGSPEAK){
-      /*
-      Serial.print("channel: "); Serial.println(myThingSpeak.channelNumber);
-      Serial.print("write api key: "); Serial.println(myThingSpeak.writeAPIKey);
-      Serial.print("field temp #"); Serial.println(myThingSpeak.field_temp);
-      Serial.print("field mois #"); Serial.println(myThingSpeak.field_mois);
-      Serial.print("update interval: "); Serial.print(myThingSpeak.update_interval); Serial.println("s");
-      */
+    if(myWifi.getCustomSettings().settings.THINGSPEAK){ //write to thingspeak
       if(myWifi.isConnected()){
         myThingSpeak.write(myDallas.getLastMeasured(),myMoisture.getLastMeasured());
       }
