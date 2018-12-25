@@ -151,10 +151,10 @@ label.title{
 <div class='btn-group'>
 <table>
 <tr><td><label>Channel</label></td><td><input id='_ts_channel' name='_ts_channel' length=16 pattern='^[0-9]{1,16}$' required value='{ts_channel}'></td></tr>
-<tr><td><label>Write API Keys</label></td><td><input id='_ts_write_api_key' name='_ts_write_api_key' length=16 pattern='^[0-9a-zA-Z]{16}$' required value='{ts_write_api_key}'></td></tr>
+<tr><td><label>Write API Key</label></td><td><input id='_ts_write_api_key' name='_ts_write_api_key' length=16 pattern='^[0-9a-zA-Z]{16}$' required value='{ts_write_api_key}'></td></tr>
 <tr><td><label>Temperature Field #</label></td><td><input id='_ts_field_temp' name='_ts_field_temp' length=1 pattern='^[0-8]{1}$' required value='{ts_field_temp}'></td></tr>
 <tr><td><label>Moisture Field #</label></td><td><input id='_ts_field_mois' name='_ts_field_mois' length=1 pattern='^[0-8]{1}$' required value='{ts_field_mois}'></td></tr>
-<tr><td><label>Update interval(s)</label></td><td><input id='_ts_update_interval' name='_ts_update_interval' length=4 pattern='^[0-9]{1,16}$' required value='{ts_update_interval}'></td></tr>
+<tr><td><label>Update interval (s)</label></td><td><input id='_ts_update_interval' name='_ts_update_interval' length=4 pattern='^[0-9]{1,16}$' required value='{ts_update_interval}'></td></tr>
 </table>
 </div>
 

@@ -2,10 +2,16 @@
 
 #include "Arduino.h" //not sure why but here it is needed
 
+#define MEASURE_COUNT 5
 float MyMoisture::measure(){
    Serial.print("Moisture: ");
-   digitalWrite(MEASURING, LOW);
-   float value_moisture= analogRead(SENSE_PIN);
+   float value_moisture = 0;
+   for(int i=0; i<MEASURE_COUNT; i++){
+     digitalWrite(MEASURING, LOW);
+     value_moisture+= analogRead(SENSE_PIN);
+     delay(50);
+   }
+   value_moisture/=MEASURE_COUNT;
 
 //experimentally checked range
    if(value_moisture<MIN_RANGE) value_moisture=MIN_RANGE;
