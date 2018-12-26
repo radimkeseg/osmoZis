@@ -111,6 +111,7 @@ checkbox input:before {
 
 input{
   transition: 0.5s;
+  border: 1px;
 }
 
 label{
@@ -120,6 +121,10 @@ label{
   display: table-cell;
   vertical-align: bottom;
   white-space: nowrap;
+}
+input[type=text]:focus, textarea:focus {
+  border: 1px;
+  box-shadow: 0 0 10px #b5912d;
 }
 label.title{
   width:150px;
@@ -139,7 +144,7 @@ label.title{
 <label class='title'>Time Zone Settings</label>
 <div class='btn-group'>
 <table>
-<tr><td><label>UTC TimeOffset</label></td><td><input id='_timeoffset' name='_timeoffset' length=5 pattern='^[0-9-\\.]{1,5}$' required value='{timeoffset}'></td>
+<tr><td><label>UTC TimeOffset</label></td><td><input id='_timeoffset' name='_timeoffset' type='text' length=5 pattern='^[0-9-\\.]{1,5}$' required value='{timeoffset}'></td>
 <td colspan='2'><label><input id='_dst' name='_dst' type='checkbox' {dst}>DST</label></td></tr>
 </table>
 </div>
@@ -147,11 +152,11 @@ label.title{
 <label class='title'><input id='_ts' name='_ts' type='checkbox' {ts}>ThingSpeak</label>
 <div class='btn-group'>
 <table>
-<tr><td><label>Channel</label></td><td><input id='_ts_channel' name='_ts_channel' length=16 pattern='^[0-9]{1,16}$' required value='{ts_channel}'></td></tr>
-<tr><td><label>Write API Keys</label></td><td><input id='_ts_write_api_key' name='_ts_write_api_key' length=16 pattern='^[0-9a-zA-Z]{16}$' required value='{ts_write_api_key}'></td></tr>
-<tr><td><label>Temperature Field #</label></td><td><input id='_ts_field_temp' name='_ts_field_temp' length=1 pattern='^[0-8]{1}$' required value='{ts_field_temp}'></td></tr>
-<tr><td><label>Moisture Field #</label></td><td><input id='_ts_field_mois' name='_ts_field_mois' length=1 pattern='^[0-8]{1}$' required value='{ts_field_mois}'></td></tr>
-<tr><td><label>Update interval(s)</label></td><td><input id='_ts_update_interval' name='_ts_update_interval' length=4 pattern='^[0-9]{1,16}$' required value='{ts_update_interval}'></td></tr>
+<tr><td><label>Channel</label></td><td><input id='_ts_channel' name='_ts_channel' type='text' length=16 pattern='^[0-9]{1,16}$' required value='{ts_channel}'></td></tr>
+<tr><td><label>Write API Keys</label></td><td><input id='_ts_write_api_key' name='_ts_write_api_key' type='text' length=16 pattern='^[0-9a-zA-Z]{16}$' required value='{ts_write_api_key}'></td></tr>
+<tr><td><label>Temperature Field #</label></td><td><input id='_ts_field_temp' name='_ts_field_temp' type='text' length=1 pattern='^[0-8]{1}$' required value='{ts_field_temp}'></td></tr>
+<tr><td><label>Moisture Field #</label></td><td><input id='_ts_field_mois' name='_ts_field_mois' type='text' length=1 pattern='^[0-8]{1}$' required value='{ts_field_mois}'></td></tr>
+<tr><td><label>Update interval(s)</label></td><td><input id='_ts_update_interval' name='_ts_update_interval' type='text' length=4 pattern='^[0-9]{1,16}$' required value='{ts_update_interval}'></td></tr>
 </table>
 </div>
 
