@@ -42,6 +42,8 @@ long update_interval = 600*1000; //default 10 min
 void setup()   {                
   Serial.begin(9600);
 
+  pinMode(MEASURING, OUTPUT);
+  
   setupOsmoZis();  
 
   myDisplay.begin();
@@ -114,7 +116,7 @@ void loop(void) {
   myDisplay.write_IP(0,1, myWifi.getIP().c_str());
   myDisplay.write_time(127,1, timeClient.getFormattedTimeShort().c_str());
   myDisplay.write_progress(0,10,127,1,measurementUpdate.elapsed()/1000,false,0,measurementUpdate.getTimeout()/1000);
-  Serial.print("time elapsed: ");Serial.print(measurementUpdate.elapsed()/1000);Serial.print("time remains: ");Serial.println(measurementUpdate.remains()/1000);
+  //Serial.print("time elapsed: ");Serial.print(measurementUpdate.elapsed()/1000);Serial.print("time remains: ");Serial.println(measurementUpdate.remains()/1000);
   myDisplay.showDisplay();
   
   //Serial.print(".");

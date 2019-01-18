@@ -1,3 +1,4 @@
+/*
 //osmoZis generator 200Hz
 volatile byte state = LOW;
 volatile byte count = 0;
@@ -13,10 +14,17 @@ void ICACHE_RAM_ATTR divide() {
 
 // the trick to generate impulses using PWM - 1kHz
 void setupOsmoZis(){  
-  pinMode(MEASURING, OUTPUT);
   pinMode(D6, OUTPUT);
   pinMode(D7, INPUT);
   pinMode(D8, OUTPUT);
   analogWrite(D6, 128);
   attachInterrupt(digitalPinToInterrupt(D7), divide, CHANGE);//CHANGE or RISING
 }
+*/
+
+void setupOsmoZis(){
+  pinMode(D8, OUTPUT);
+  analogWriteFreq(200);
+  analogWrite(D8, 100);
+}
+
