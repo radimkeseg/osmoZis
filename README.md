@@ -26,7 +26,7 @@ This simple and cheap device, which costs fraction of what you can find on the m
 ** to send data to thinkgspeak to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
 
 
-# What do you need to make your own device?
+# What do I need to make my own device?
 check the "img" folder, there you can find design of the circuitry, PCB gerber file and several pictures that might help to make the final product.
 
 ![setup](img/how_to_set_it_up.jpg)
