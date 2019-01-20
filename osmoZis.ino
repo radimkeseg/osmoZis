@@ -60,8 +60,6 @@ void setup()   {
   }
 
   myDisplay.begin();
-  myDisplay.write_intro();
-
   myDallas.begin();
 
   myWifi.setup(AP_NAME,60); //1 min to configure the WIFI 

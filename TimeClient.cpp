@@ -1,6 +1,6 @@
 /**The MIT License (MIT)
 
-Copyright (c) 2017 by Radim Keseg
+Copyright (c) 2019 by Radim Keseg
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ void TimeClient::updateTime() {
   WiFiClient client;
   const int httpPort = 80;
   if (!client.connect("www.google.com", httpPort)) {
-    Serial.println("connection failed");
+    Serial.println("get time connection failed");
     return;
   }
   
