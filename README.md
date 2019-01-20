@@ -19,11 +19,11 @@ This simple and cheap device, which costs fraction of what you can find on the m
 * observe moisture on the display
 * observe temperature on the display
 * connect the device to your wifi
-** see IP address of the device on the display
-** see actual time
-* and additional settings
-** time zone offset
-** to send data to thinkgspeak to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
+*  see IP address of the device on the display
+*  see actual time
+and additional settings
+*  time zone offset
+*  to send data to thinkgspeak to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
 
 
 # What do I need to make my own device?
