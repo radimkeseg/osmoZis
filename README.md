@@ -29,7 +29,7 @@ This simple and cheap device, which costs fraction of what you can find on the m
 # What do you need to make your own device?
 check the "img" folder, there you can find design of the circuitry, PCB gerber file and several pictures that might help to make the final product.
 
-![set up](img/how to set it up.jpg)
+![setup](img/how_to_set_it_up.jpg)
 
 # How to make it breathing?
 Just use the piece of code and check the software, or in case you don't want to bother, just use the bin file and flash your own ESP directly.
