@@ -1,36 +1,36 @@
 # OsmoZis v2
 
-Do you need to dry out your house from rising water? Typically an older hour or a house with problematic fundament insulation?
+Do you need to dry out your house from rising water? Typically an older house or a house with problematic fundament insulation?
 
 Well without too much of the theory, there is chance a small gadget like this would help.
 ![OsmoZis v2](img/OsmoZis_20190120_110924.jpg)
 
 # How does it work?
-Simply said, the equiplent generates low frequency peaks which eliminate force existing in the water/wall solution and keeps let the gravitation win the  fight of various forces and drop the water down, back to the ground.
+Simply said, the equipment generates low frequency peaks which eliminate force existing in the water/wall solution and let the gravitation win the fight of various forces and drop the water down, back to the ground.
 
 Sounds like magic, well, most likely it does, however it was successfully tested experimentally.
 
-If you need more details or theory provoded by experts, seach on internet for articles or videos that might help you to understand the magic. One iteresting I have personally found is  following https://www.youtube.com/watch?v=hDw9_C7s-Mk.
+If you need more details or theory provided by experts, seach on the internet for articles or videos that might help you to understand the magic. One interesting article I have found is the following https://www.youtube.com/watch?v=hDw9_C7s-Mk.
 
-# Does it exist in market?
-Of course it does, just search OSMO something ... The devices are far to expansive and some of them just show a led diode shining, without a chance to see wheter it really works or not.
+# Does it exist on the market?
+Of course it does, just search OSMO something ... The devices are far too expensive and some of them just show a led diode shining, without a chance to see whether it really works or not.
 
-This simple and cheap device, which cost fraction of what you can find on market gives provides functions where you can:
-* observe moisture on display
-* observe temperature on display
+This simple and cheap device, which costs fraction of what you can find on the market, provides functions where you can:
+* observe moisture on the display
+* observe temperature on the display
 * connect the device to your wifi
-** see IP address of the device on display
-** see time
-* and setting
-** to set time zone offset
-** send data to thinkgspeak to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
+** see IP address of the device on the display
+** see actual time
+* and additional settings
+** time zone offset
+** to send data to thinkgspeak to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
 
 
 # What do you need to make your own device?
-check the "img" folder, there you can find design of the circuitry, PCB gerber file and several pictures that might help to make a final good.
+check the "img" folder, there you can find design of the circuitry, PCB gerber file and several pictures that might help to make the final product.
 
 # How to make it breathing?
-Just use the piecce of code and check the software, or in case you dont want to bother, just use the bin file and flash your own ESP directly.
+Just use the piece of code and check the software, or in case you don't want to bother, just use the bin file and flash your own ESP directly.
 
 If you are interested in the code, be aware of several external libraries that are needed, find the list below.
 
@@ -45,5 +45,4 @@ If you are interested in the code, be aware of several external libraries that a
 7. include <Interval.h>
 8. include <ThingSpeak.h>
 
-and of course finally
 9. ESP8266 board and libraries
