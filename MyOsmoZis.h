@@ -50,6 +50,6 @@ void setupOsmoZis(){
 void setupOsmoZis(){
   pinMode(D8, OUTPUT);
   analogWriteFreq(200);
-  analogWrite(D8, 100);
+  analogWrite(D8, 10);
 }
 
