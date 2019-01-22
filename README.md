@@ -1,6 +1,6 @@
 # OsmoZis v2
 
-... In other languages [česky](README.cs-CZ.md)
+... in other languages [česky](README.cs-CZ.md)
 
 Do you need to dry out your house from rising water? Typically an older house or a house with problematic fundament insulation?
 
@@ -25,7 +25,7 @@ This simple and cheap device, which costs fraction of what you can find on the m
   *  see actual time
 * and additional settings
   * time zone offset
-  * to send data to thinkgspeak to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
+  * to send data to www.thinkgspeak.com to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
 
 
 # What do I need to make my own device?
