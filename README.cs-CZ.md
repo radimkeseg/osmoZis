@@ -50,4 +50,4 @@ Pokud chcete zkoumat kód, je třeba stáhnout některé další knihovny, jejic
 9. ESP8266 desku a knihovny k ní
 
 # Můžu toto zařízení získat, aniž bych jej vyráběl?
-Pokud máte zájem, kontaktujte mne na emailu radim.keseg@hotmail.com, do předmětu napište "OsmoZis", můžeme se případně dohodnout abych zařízení vyrobil a poslal Vám jej.
+Pokud máte zájem, kontaktujte mne na emailu radim.keseg@hotmail.com, do předmětu napište "OsmoZis", můžeme se případně dohodnout, abych zařízení vyrobil a poslal Vám jej.
