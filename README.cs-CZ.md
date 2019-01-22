@@ -1,4 +1,4 @@
-# OsmoZis v2 - osmóza - neinvazivní vysoušení domu
+# OsmoZis v2 - osmóza - neinvazivní vysoušení zdiva
 
 Potřebujete se zbavit vzlínající vlhkosti ve vašem domě? Typicky u starého domu s problematickou izolací základů?
 
