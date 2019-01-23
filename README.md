@@ -1,6 +1,6 @@
 # OsmoZis v2
 
-... in other languages [česky](README.cs-CZ.md)
+... in other languages [česky](README.cs.md)
 
 Do you need to dry out your house from rising water? Typically an older house or a house with problematic fundament insulation?
 
