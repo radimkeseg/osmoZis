@@ -29,7 +29,7 @@ Toto je levné zařízení, které stojí jen zlomek ceny (asi 200 - 500kč za s
 
 
 # Co potřebuji na to si zařízení vyrobit?
-v adresáři "img", najdete návrh obvodu zařízení, dále výrobní data pro desku a další obrázky, které vám pomohou výsledný zařízení vytvořit.
+v adresáři ["img"](osmoZis/img/), najdete návrh obvodu zařízení, dále výrobní data pro desku a další obrázky, které vám pomohou výsledný zařízení vytvořit.
 
 ![setup](img/how_to_set_it_up.jpg)
 
