@@ -1,52 +1,55 @@
-# OsmoZis v2
+# OsmoZis v2 - osmóza - neinvazivní vysoušení zdiva
 
-... in other languages [česky](README.cs.md)
+... in other languages [english](README.en.md)
 
-Do you need to dry out your house from rising water? Typically an older house or a house with problematic fundament insulation?
+Potřebujete se zbavit vzlínající vlhkosti ve vašem domě? Typicky u starého domu s problematickou izolací základů?
 
-Well without too much of the theory, there is chance a small gadget like this would help.
+Bez zbytečných průtahů a přílišné teorie, je jistá šance, že zařízení, které je zde popsané Vám může pomoci.
 ![OsmoZis v2](img/OsmoZis_20190120_110924.jpg)
 
-# How does it work?
-Simply said, the equipment generates low frequency peaks which eliminate force existing in the water/wall solution and let the gravitation win the fight of various forces and drop the water down, back to the ground.
+# Jak to funguje?
+Zjednodušeně řečeno, toto zařízení generuje nízko frekvenční špičky, které eliminují síly které umožňuje vodnímu roztoku ve zdi překonat gravitaci a vyhrát nad silou, které způsobuje vzlínání, a voda se vrátí zpět do země.
 
-Sounds like magic, well, most likely it does, however it was successfully tested experimentally.
+Může to znít jako kouzlo, nicméně experimentálně byla funkčnost úspěšně ověřena.
 
-If you need more details or theory provided by experts, seach on the internet for articles or videos that might help you to understand the magic. One interesting article I have found is the following https://www.youtube.com/watch?v=hDw9_C7s-Mk.
+Pokud se chcete dozvědět více detailů od expertů, určitě najdete na internetu spoustu článku a videí které by Vám mohli pomoci porozumět principu elektro-osmozy. Zajímavé video může být například v následujícím odkazu https://www.youtube.com/watch?v=hDw9_C7s-Mk.
 
-# Does it exist on the market?
-Of course it does, just search OSMO something ... The devices are far too expensive and some of them just show a led diode shining, without a chance to see whether it really works or not.
+# Je možné taková zařízení koupit?
+Samozřejmě že ano, jen hledejte OSMO-něco ... jen jsou tato zařízení příliš drahá a jediné, jak člověk pozná že něco dělají je svítící dioda bez další možnosti, jak si průběžně ověřit, že zařízení funguje.
 
-This simple and cheap device, which costs fraction of what you can find on the market, provides functions where you can:
-* observe moisture on the display
-* observe temperature on the display
-* connect the device to your wifi
-  * see IP address of the device on the display
-  *  see actual time
-* and additional settings
-  * time zone offset
-  * to send data to www.thinkgspeak.com to see moisture/temperature online every 10 minuts by default (customizable based on your preferences)
+Toto je levné zařízení, které stojí jen zlomek ceny (asi 200 - 500kč za součástky dle toho, kde je koupíte) naproti tomu co je nabízeno na trhu (20000 - 50000 kč), ale poskytuje mnohem více funkcí:
+* na displeji je možné vidět aktuální vlhkost
+* dále i aktuální teplotu
+* zařízení se dá připojit na wifi
+  * kde dále vidíte jeho adresu
+  * a aktuální čas
+* s dalšími nastaveními
+  * časová zóna
+  * a odesílání dat na cloud (www.thinkgspeak.com) kde můžete vidět grafy vlhkosti a teploty online každý 10 minut standardně (nebo si interval nastavit dle osobních preferencí)
 
 
-# What do I need to make my own device?
-check the "img" folder, there you can find design of the circuitry, PCB gerber file and several pictures that might help to make the final product.
+# Co potřebuji na to si zařízení vyrobit?
+v adresáři "img", najdete návrh obvodu zařízení, dále výrobní data pro desku a další obrázky, které vám pomohou výsledný zařízení vytvořit.
 
 ![setup](img/how_to_set_it_up.jpg)
 
-# How to make it breathing?
-Just use the piece of code and check the software, or in case you don't want to bother, just use the bin file and flash your own ESP directly.
+# Jak zařízení oživit?
+v tomto adresáři najdete kód programu, na který se můžete podívat a případně jej upravit, pokud nechcete jen jej nahrajte do ESP přímo.
 
-If you are interested in the code, be aware of several external libraries that are needed, find the list below.
+Pokud chcete zkoumat kód, je třeba stáhnout některé další knihovny, jejichž seznam najdete níže.
 
-1. include <OneWire.h> 
-2. include <DallasTemperature.h>
+1. <OneWire.h> 
+2. <DallasTemperature.h>
 
-3. include <SPI.h>
-4. include <Wire.h>
-5. include <Adafruit_GFX.h>
-6. include "Adafruit_SSD1306.h"
+3. <SPI.h>
+4. <Wire.h>
+5. <Adafruit_GFX.h>
+6. "Adafruit_SSD1306.h"
 
-7. include <Interval.h>
-8. include <ThingSpeak.h>
+7. <Interval.h>
+8. <ThingSpeak.h>
 
-9. ESP8266 board and libraries
+9. ESP8266 desku a knihovny k ní
+
+# Můžu toto zařízení získat, aniž bych jej vyráběl?
+Pokud máte zájem, kontaktujte mne na emailu radim.keseg@hotmail.com, do předmětu napište "OsmoZis", můžeme se případně dohodnout, abych zařízení vyrobil a poslal Vám jej.
