@@ -1,4 +1,4 @@
-# OsmoZis v2 - osmóza - neinvazivní vysoušení zdiva
+# OsmoZis v2 - osmóza - neinvazivní vysoušení vlhkého zdiva
 
 ... in other languages [english](README.en.md)
 
