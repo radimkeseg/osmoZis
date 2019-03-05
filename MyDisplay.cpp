@@ -44,7 +44,7 @@ void MyDisplay::write_intro(bool manual) {
 
   display->setTextColor(WHITE);
   display->setCursor(0,54);
-  if(manual) display->print("manual wifi config 1s");
+  if(manual) display->print("manual wifi config ?");
   else display->print("auto wifi config 1min");
   
   showDisplay(); 

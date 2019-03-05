@@ -53,13 +53,17 @@ void setup()   {
   for(int i=0; i<100; i++){
     if ( digitalRead(TRIGGER_PIN) == LOW ) {
       Serial.println("manual config portal triggered ");
+      myDisplay.write_intro(true);
       myWifi.forceManualConfig((String(AP_NAME)+"-OnDemandAP").c_str());
       Serial.println("connecting again ...)");
     }
     delay(50);
   }
 
+
   myDisplay.begin();
+  myDisplay.write_intro(false);
+
   myDallas.begin();
 
   myWifi.setup(AP_NAME,60); //1 min to configure the WIFI 
