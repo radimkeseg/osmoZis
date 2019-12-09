@@ -49,6 +49,10 @@ void setup()   {
   myDisplay.begin();
   myDisplay.write_intro(true);
 
+  pinMode(TRIGGER_PIN, OUTPUT); //set the trigger pin to HIGH as preset
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delay(200);
+
   pinMode(TRIGGER_PIN, INPUT); //when flash pressed get to wifi config portal
   for(int i=0; i<100; i++){
     if ( digitalRead(TRIGGER_PIN) == LOW ) {
