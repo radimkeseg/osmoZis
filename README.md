@@ -49,5 +49,7 @@ Pokud chcete zkoumat kód, je třeba stáhnout některé další knihovny, jejic
 7. <Interval.h>
 8. <ThingSpeak.h>
 
-9. ESP8266 desku a knihovny k ní
+9. <WifiManager.h> (tzapo)
+
+10. ESP8266 desku a knihovny k ní
 

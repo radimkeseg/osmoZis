@@ -49,4 +49,6 @@ If you are interested in the code, be aware of several external libraries that a
 7. include <Interval.h>
 8. include <ThingSpeak.h>
 
-9. ESP8266 board and libraries
+9. <WifiManager.h> (tzapo)
+
+10. ESP8266 board and libraries
